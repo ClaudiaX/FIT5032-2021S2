@@ -36,9 +36,12 @@ namespace FIT5032_2021S2.Controllers
         }
 
         // GET: Stores/Create
+        // [Authorize(Roles ="Manager")]
         public ActionResult Create()
         {
-            return View();
+            if(User.IsInRole("Manager"))
+                return View();
+            return HttpNotFound();
         }
 
         // POST: Stores/Create

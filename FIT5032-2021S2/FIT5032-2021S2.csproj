@@ -587,7 +587,8 @@
     <Content Include="Views\StoreEvents\Index.cshtml" />
     <Content Include="Views\UserRoles\Index.cshtml" />
     <Content Include="Views\UserRoles\CreateRole.cshtml" />
-    <Content Include="Views\UserRoles\EditRole.cshtml" />
+    <Content Include="Views\UserRoles\AddRoleToUser.cshtml" />
+    <Content Include="Views\UserRoles\GetUserRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,6 +8,7 @@ namespace FIT5032_2021S2
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new RequireHttpsAttribute());
         }
     }
 }
