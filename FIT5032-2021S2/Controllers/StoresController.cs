@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using FIT5032_2021S2.Models;
@@ -39,9 +40,9 @@ namespace FIT5032_2021S2.Controllers
         // [Authorize(Roles ="Manager")]
         public ActionResult Create()
         {
-            if(User.IsInRole("Manager"))
-                return View();
-            return HttpNotFound();
+            //if(User.IsInRole("Manager"))
+            return View();
+            //return HttpNotFound();
         }
 
         // POST: Stores/Create
@@ -126,5 +127,12 @@ namespace FIT5032_2021S2.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public JsonResult GetStores()
+        {
+            var stores = db.Stores.ToList();
+            return new JsonResult { Data = stores, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
     }
 }

@@ -32,6 +32,10 @@ namespace FIT5032_2021S2
                       "~/Scripts/DataTables/jquery.dataTables.min.js",
                       "~/Scripts/DataTables/dataTables.bootstrap.min.js"));
 
+            // google map
+            bundles.Add(new ScriptBundle("~/bundles/map").Include(
+                      "~/Scripts/map.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
