@@ -9,7 +9,7 @@ namespace FIT5032_2021S2.Models
     public class BookEvent
     {
         [Required]
-        public int EventId { get; set; }
+        public int StoreEventId { get; set; }
         public StoreEvent StoreEvent { get; set; }
 
         [Required]

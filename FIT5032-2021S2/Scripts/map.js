@@ -41,6 +41,36 @@ function initMap() {
         geodoceAddress(map, stores[i]);
     }
 
+    // auto complete for start
+    var start = document.getElementById("start");
+    const autoComplete = new google.maps.places.Autocomplete(start);
+    autoComplete.bindTo("bounds", map);
+
+    // get direction
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    const directionsService = new google.maps.DirectionsService();
+    directionsRenderer.setMap(map);
+    directionsRenderer.setPanel(document.getElementById("sidebar"));
+    var getDirection = document.getElementById("get-direction");
+    getDirection.addEventListener("click", function () {
+        directionsService.route({
+            origin: {
+                query:document.getElementById("start").value
+            },
+            destination: {
+                query:document.getElementById("end").value
+            },
+            travelMode: google.maps.TravelMode[document.getElementById("mode").value]
+        }, (response, status) => {
+            if (status == "OK") {
+                directionsRenderer.setDirections(response);
+            } else {
+                window.alert("Unable to direct due to " + status);
+            }
+        });
+    });
+
+
 }
 
 function geodoceAddress(map, store) {
@@ -51,8 +81,21 @@ function geodoceAddress(map, store) {
     });
     geocoder.geocode({ address: store.Address }, function (result, status) {
         if (status === "OK") {
+
+            const image = {
+                url: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+                // This marker is 20 pixels wide by 32 pixels high.
+                size: new google.maps.Size(20, 32),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32),
+            };
+
             var marker = new google.maps.Marker({
                 map: map,
+                icon: image,
+                animation: google.maps.Animation.DROP,
                 position: result[0].geometry.location
             });
         }

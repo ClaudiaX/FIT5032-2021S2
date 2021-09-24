@@ -1,0 +1,54 @@
+﻿@model List<FIT5032_2021S2.Models.BookEvent>
+
+@{
+    ViewBag.Title = "MyEvent";
+}
+
+<h2>My Events</h2>
+
+@if (Model == null)
+{
+    <h2>You haven't booked any event.</h2>
+}
+else
+{
+
+    <table class="table">
+        <tr>
+            <th>Event</th>
+            <th>Store</th>
+            <th>Start time</th>
+            <th>End time</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreEvent.EventType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreEvent.Store.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreEvent.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreEvent.EndTime)
+                </td>
+                @if (item.StoreEvent.StartTime > DateTime.Now)
+                {
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteBookEvent", new { storeEventId = item.StoreEvent.Id })
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
+
+    </table>
+}

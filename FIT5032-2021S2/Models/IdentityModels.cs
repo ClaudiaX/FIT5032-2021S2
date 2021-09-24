@@ -33,5 +33,12 @@ namespace FIT5032_2021S2.Models
         public DbSet<Store> Stores { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<StoreEvent> storeEvents { get; set; }
+        public DbSet<BookEvent> BookEvents { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<BookEvent>().HasKey(be => new { be.StoreEventId, be.UserId });
+        }
     }
 }

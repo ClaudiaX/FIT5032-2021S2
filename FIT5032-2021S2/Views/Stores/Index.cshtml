@@ -4,19 +4,80 @@
     ViewBag.Title = "Index";
 }
 <style>
-    #map {
-        height:500px;
+    #container {
+        height: 500px;
+        display: flex;
     }
+
+    #sidebar {
+        flex-basis: 15rem;
+        flex-grow: 1;
+        padding: 1rem;
+        max-width: 30rem;
+        height: 100%;
+        box-sizing: border-box;
+        overflow: auto;
+    }
+
+    #map {
+        flex-basis: 0;
+        flex-grow: 4;
+        height: 100%;
+    }
+
+    #map {
+        flex: auto;
+    }
+
+    #sidebar {
+        flex: 0 1 auto;
+        padding: 0;
+    }
+
+        #sidebar > div {
+            padding: 0.5rem;
+        }
 </style>
 
 <h2>Stores</h2>
 
-<div id="map"></div>
+<div id="container">
+    <div id="map"></div>
+    <div id="sidebar"></div>
+</div>
 
+<div style="margin:10px;">
+    <h3>Get your way</h3>
+    <div class="row" style="margin:10px;">
+        <label for="start" class="col-md-2 control-label">Start</label>
+        <input type="text" id="start" class="col-md-4 form-control" />
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+        <label for="end" class="col-md-2 control-label">End</label>
+        <select id="end" class="col-md-4 form-control">
+            @foreach (var store in Model)
+            {
+                <option value="@store.Address">@store.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="row" style="margin:10px;">
+        <label for="mode" class="col-md-2 control-label">Travel mode</label>
+        <select id="mode" class="col-md-4 form-control">
+            <option value="DRIVING">Driving</option>
+            <option value="WALKING">Walking</option>
+            <option value="BICYCLING">Bicycling</option>
+            <option value="TRANSIT">Transit</option>
+        </select>
+        <input type="submit" value="Go" class="btn btn-default col-md-offset-2 col-md-2" id="get-direction" />
+    </div>
+</div>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 
 <table class="table">
     <tr>
@@ -54,9 +115,11 @@
 
 </table>
 
+}
+
 @section Scripts {
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     @Scripts.Render("~/bundles/map")
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=&v=weekly" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiuiU-J83TweJGidxs1eebzAXta2yAp-Q&callback=initMap&libraries=places&v=weekly" async></script>
 
 }
