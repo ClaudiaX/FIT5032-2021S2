@@ -36,11 +36,18 @@ namespace FIT5032_2021S2
             bundles.Add(new ScriptBundle("~/bundles/map").Include(
                       "~/Scripts/map.js"));
 
+            // full calendar
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                      "~/Scripts/moment.js",
+                      "~/Scripts/fullcalendar.min.js",
+                      "~/Scripts/calendar.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.min.css",
-                      "~/Content/bootstrap-datetimepicker.min.css"));
+                      "~/Content/bootstrap-datetimepicker.min.css",
+                      "~/Content/fullcalendar.min.css"));
         }
     }
 }

@@ -132,5 +132,12 @@ namespace FIT5032_2021S2.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public JsonResult GetEvents()
+        {
+            var events = db.storeEvents.Include("EventType").Include("Store").ToList();
+            return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
     }
 }

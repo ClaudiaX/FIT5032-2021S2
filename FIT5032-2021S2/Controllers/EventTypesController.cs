@@ -46,7 +46,7 @@ namespace FIT5032_2021S2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] EventType eventType)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Color")] EventType eventType)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace FIT5032_2021S2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] EventType eventType)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Color")] EventType eventType)
         {
             if (ModelState.IsValid)
             {

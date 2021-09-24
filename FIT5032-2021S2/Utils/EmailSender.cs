@@ -9,12 +9,12 @@ namespace FIT5032_2021S2.Utils
 {
     public class EmailSender
     {
-        private const String API_KEY = "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";
+        private const String API_KEY = "";
 
         public void Send(String toEmail, String subject, String contents)
         {
             var client = new SendGridClient(API_KEY);
-            var from = new EmailAddress("qingyunxu.au@outlook.com", "FIT5032 Example Email User");
+            var from = new EmailAddress("qingyunxu.au@outlook.com", "Teamo");
             var to = new EmailAddress(toEmail, "");
             var plainTextContent = contents;
             var htmlContent = "<p>" + contents + "</p>";

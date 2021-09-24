@@ -21,21 +21,23 @@ namespace FIT5032_2021S2.Controllers
         }
 
         [Authorize(Roles = "Customer")]
-        public ActionResult BookEvent(int storeEventId)
+        public ActionResult BookEvent(int id)
         {
             
             try {
+                // find user
                 var userId = User.Identity.GetUserId();
-                Console.WriteLine($"storeEvent: {storeEventId},userId:{userId}");
 
-                var bookEvent = new BookEvent { StoreEventId = storeEventId, UserId = userId };
+                // add bookevent to db
+                var bookEvent = new BookEvent { StoreEventId = id, UserId = userId };
                 db.BookEvents.Add(bookEvent);
                 db.SaveChanges();
 
                 var user = db.Users.FirstOrDefault(u=>u.Id==userId);
-                bookEvent.StoreEvent = db.storeEvents.FirstOrDefault(se=>se.Id==storeEventId);
+                bookEvent.StoreEvent = db.storeEvents.FirstOrDefault(se=>se.Id==id);
                 bookEvent.StoreEvent.Store = db.Stores.FirstOrDefault(s => s.Id == bookEvent.StoreEvent.StoreId);
 
+                // send email
                 String toEmail = user.Email;
                 String subject = "Book event comfirmation";
                 String contents = $"Store: {bookEvent.StoreEvent.Store.Name}, start time: {bookEvent.StoreEvent.StartTime.ToString("dd-MMM-yyyy mm:HH")}";
@@ -44,9 +46,7 @@ namespace FIT5032_2021S2.Controllers
                 es.Send(toEmail, subject, contents);
 
                 ViewBag.Result = "Email has been send.";
-
-                ModelState.Clear();
-                // send email
+                
                 return RedirectToAction("ViewBookedEvents");
             }
             catch (Exception exception) {
@@ -74,5 +74,7 @@ namespace FIT5032_2021S2.Controllers
             }
             return RedirectToAction("ViewBookedEvents");
         }
+
+
     }
 }

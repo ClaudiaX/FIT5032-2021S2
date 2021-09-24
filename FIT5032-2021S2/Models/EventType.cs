@@ -14,5 +14,6 @@ namespace FIT5032_2021S2.Models
         [MaxLength(30)]
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Color { get; set; }
     }
 }

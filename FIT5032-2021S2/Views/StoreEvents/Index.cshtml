@@ -4,11 +4,25 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Store Events</h2>
+
+<div id="calendar"></div>
+
+<div id="details" style="display:none;">
+    <h3>Event details</h3>
+    <div><strong>Event: </strong><span id="eventName"></span></div>
+    <div><strong>Store: </strong><span id="storeName"></span></div>
+    <div><strong>Start time: </strong><span id="startTime"></span></div>
+    <div><strong>End time: </strong><span id="endTime"></span></div>
+    <div><a id="bookLink"></a></div>
+</div>
+
+<hr />
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -26,27 +40,70 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventType.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Store.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.ActionLink("Book", "BookEvent", "BookEvents",new {storeEventId = item.Id},null) |
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.ActionLink("Book", "BookEvent", "BookEvents", new { id = item.Id }, null) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/fullcalendar")
+<script>
+    
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "/StoreEvents/GetEvents", false);
+    xmlHttp.send();
+    var storeEvents = JSON.parse(xmlHttp.responseText);
+    //console.log(storeEvents);
+
+    var events = [];
+    for (var i = 0; i < storeEvents.length; i++) {
+        if (moment(storeEvents[i].StartTime) < Date.now()) {
+            events.push({
+                eventId: storeEvents[i].Id,
+                title: storeEvents[i].EventType.Name,
+                description: storeEvents[i].EventType.Description,
+                store: storeEvents[i].Store.Name,
+                start: moment(storeEvents[i].StartTime),
+                end: moment(storeEvents[i].EndTime),
+                color:"#666666"
+            });
+        } else {
+            events.push({
+                eventId: storeEvents[i].Id,
+                title: storeEvents[i].EventType.Name,
+                description: storeEvents[i].EventType.Description,
+                store: storeEvents[i].Store.Name,
+                start: moment(storeEvents[i].StartTime),
+                end: moment(storeEvents[i].EndTime),
+                color: storeEvents[i].EventType.Color,
+            });
+        }
+    }
+
+
+    generateCalendar(events);
+
+    </script>
+}
