@@ -47,7 +47,8 @@ namespace FIT5032_2021S2
                       "~/Content/site.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.min.css",
                       "~/Content/bootstrap-datetimepicker.min.css",
-                      "~/Content/fullcalendar.min.css"));
+                      "~/Content/fullcalendar.min.css",
+                      "~/Content/rate-star.css"));
         }
     }
 }

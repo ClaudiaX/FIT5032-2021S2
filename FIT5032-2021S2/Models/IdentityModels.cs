@@ -34,6 +34,7 @@ namespace FIT5032_2021S2.Models
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<StoreEvent> storeEvents { get; set; }
         public DbSet<BookEvent> BookEvents { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -33,9 +33,69 @@
         <dd>
             @Html.DisplayFor(model => model.ContactNumber)
         </dd>
-
+        <dt>@Html.DisplayNameFor(model=>model.AvgRating)</dt>
+        <dd>@Html.DisplayFor(model => model.AvgRating)</dd>
     </dl>
 </div>
+
+@if (User.IsInRole("Customer"))
+{
+    using (Html.BeginForm("RateStore", "Stores",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model=>model.Id)
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="Rate" class="control-label col-md-2">Rate</label>
+        @*<input type="number" name="Rate" value="" class="form-control" />*@
+        <div class="rate">
+            <input type="radio" id="star5" name="Rate" value="5" />
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="Rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="Rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="Rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="Rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Comment" class="control-label col-md-2">Comment</label>
+        <textarea id="Comment" name="Comment" rows="4" cols="50" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+}
+
+<div>
+    <h4>Customer Rating</h4>
+    @foreach(var rate in Model.Ratings)
+    {
+        <dl class="dl-horizontal">
+            <dt>Custoer</dt>
+            <dd>@rate.User.UserName</dd>
+            <dt>Rate</dt>
+            <dd>
+                @for (var i = 1; i <= rate.Rate; i++)
+                {
+                    <span class="fa fa-star" style="color: #ffc700;"></span>
+                }
+            </dd>
+            <dt>Comment</dt>
+            <dd>@rate.Comment</dd>
+        </dl>
+    }
+</div>
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
